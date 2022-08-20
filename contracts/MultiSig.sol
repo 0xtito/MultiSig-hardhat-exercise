@@ -106,7 +106,7 @@ contract MultiSig {
 
     function confirmTransaction(uint transactionId) public {
         require(isOwner(msg.sender));
-        Confirmation(msg.sender, transactionId);
+        emit Confirmation(msg.sender, transactionId);
         confirmations[transactionId][msg.sender] = true;
         if(isConfirmed(transactionId)) {
             executeTransaction(transactionId);

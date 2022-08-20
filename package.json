@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx hardhat test tests/test.js",
+    "start": "npm run deploy && npx parcel app/index.html",
+    "deploy": "npx hardhat run scripts/deploy.js --network localhost"
   },
   "keywords": [],
   "author": "",
@@ -14,14 +16,26 @@
   ],
   "dependencies": {
     "dotenv": "^8.2.0",
-    "hardhat": "^2.1.1",
     "parcel": "^2.0.1"
   },
   "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.1",
-    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@nomicfoundation/hardhat-toolbox": "^1.0.2",
+    "assert": "^2.0.0",
+    "browserify-zlib": "^0.2.0",
     "chai": "^4.3.3",
-    "ethereum-waffle": "^3.3.0",
-    "ethers": "^5.0.31"
+    "console-browserify": "^1.2.0",
+    "constants-browserify": "^1.0.0",
+    "domain-browser": "^4.22.0",
+    "ethers": "^5.0.31",
+    "events": "^3.3.0",
+    "hardhat": "^2.10.2",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "querystring-es3": "^0.2.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.0",
+    "vm-browserify": "^1.1.2"
   }
 }
