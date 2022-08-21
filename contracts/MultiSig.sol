@@ -5,17 +5,20 @@ contract MultiSig {
     address[] public owners;
     uint public transactionCount;
     uint public required;
+    uint public expirationTime = 5 days;
 
     event Confirmation(address indexed sender, uint indexed transactionId);
     event Submission(uint indexed transactionId);
     event Execution(uint indexed transactionId);
     event Deposit(address indexed sender, uint value);
+    event ExpirationChanged(uint indexed time);
 
     struct Transaction {
         address payable destination;
         uint value;
         bool executed;
         bytes data;
+        uint timeOfSubmission;
     }
 
     mapping(uint => Transaction) public transactions;
@@ -106,6 +109,7 @@ contract MultiSig {
 
     function confirmTransaction(uint transactionId) public {
         require(isOwner(msg.sender));
+        require(transactions[transactionId].timeOfSubmission + expirationTime > block.timestamp, "transaction has expired");
         emit Confirmation(msg.sender, transactionId);
         confirmations[transactionId][msg.sender] = true;
         if(isConfirmed(transactionId)) {
@@ -114,9 +118,15 @@ contract MultiSig {
     }
 
     function addTransaction(address payable destination, uint value, bytes memory data) public returns(uint) {
-        transactions[transactionCount] = Transaction(destination, value, false, data);
+        transactions[transactionCount] = Transaction(destination, value, false, data, block.timestamp);
         transactionCount += 1;
         return transactionCount - 1;
+    }
+
+    function changeExpiration(uint _timeInSeconds) external {
+        require(isOwner(msg.sender), "Not an owner");
+        expirationTime = _timeInSeconds;
+        emit ExpirationChanged(_timeInSeconds);
     }
 
     constructor(address[] memory _owners, uint _confirmations) {

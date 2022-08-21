@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx hardhat test tests/test.js",
+    "test": "npx hardhat test test/test.js",
     "start": "npm run deploy && npx parcel app/index.html",
     "deploy": "npx hardhat run scripts/deploy.js --network localhost"
   },
@@ -15,6 +15,7 @@
     "> 5%"
   ],
   "dependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^1.0.3",
     "dotenv": "^8.2.0",
     "parcel": "^2.0.1"
   },
